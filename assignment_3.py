@@ -17,36 +17,42 @@ def get_longest_div_k(lst, k):
             print(lst[start])
             start += 1
 
-def is_palindrome(n):
-    copie = n
-    invers = 0
-    while copie != 0:
-        cifra = copie % 10
-        invers = invers * 10 + cifra
-        copie = copie//10
-
-    if invers == n:
-        return 1
-    return 0
-
-def get_longest_all_palindromes(lst):
+def prime_digits(n):
     """
-    determina cea mai lunga subsecv de palindroame
+    determina daca numarul e format din cifre prime
+    """
+    ok = 1
+    copy = n
+    while copy != 0:
+        c = copy % 10
+        if c == 1 or c == 4 or c == 6 or c == 8 or c == 9: 
+            ok = 0
+        copy = copy//10
+
+    if ok == 0:
+        return 0
+    return 1
+
+
+def get_longest_prime_digits(lst):
+    """
+    determina cea mai lunga subsecv de numere formate din cifre prime
     """
     l = len(lst)
     result = []
-    for i in range(l):
-        for j in range(i, l):
-            k = is_palindrome(lst[i])
-            all_palindromes = True
+    for i in range (l):
+        for j in range (i, l):
+            k = prime_digits(lst[i])
+            all_prime_digits = True
             for num in lst[i:j + 1]:
-                if is_palindrome(num) != k:
-                    all_palindromes = False
+                if prime_digits(num) != k :
+                    all_prime_digits = False
                     break
-            if all_palindromes:
-                if j - i + 1 > len(result):
+            if all_prime_digits:
+                if j - i + 1 >len(result):
                     result = lst[i:j + 1]
     return result
+
 
 def read_array(lst, length):
     print("Introduceti numerele sirului: ")
@@ -54,20 +60,20 @@ def read_array(lst, length):
         lst.append(int(input()))
 
 def read_statements():
-    problem = input("Introduceti numarul problemei ")
+    problem = input("Introduceti numarul problemei: ")
     length = int(input("Introduceti lungimea sirului: "))
     lst = []
     if problem == "1":
         read_array(lst, length)
-        print(get_longest_all_palindromes(lst))
+        print(get_longest_prime_digits(lst))
     elif problem == "2":
         k = int(input("Elementul K: "))
         read_array(lst, length)
         get_longest_div_k(lst, k)
 
 def main():
-    print("1. Sa se determine cea mai lunga subsecventa de palindroame")
-    print("2. Sa se determine cea mai lunga subseceventa divizibila cu k")
+    print("1. Sa se determine cea mai lunga subsecventa care are toate numerele formate din cifre prime.")
+    print("2. Sa se determine cea mai lunga subseceventa divizibila cu k.")
     read_statements()
 
 if __name__ == '__main__':
